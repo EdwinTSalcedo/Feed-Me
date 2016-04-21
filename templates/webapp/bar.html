@@ -1,0 +1,74 @@
+<!--VISTA DE LA SECCION DE BAR -->
+{% extends 'webapp/base.html' %}
+{% load static from staticfiles %}
+{% load tags %}
+{% block loadfiles %}
+<!-- DataTables -->
+    <link rel="stylesheet" href="{% static "webapp/plugins/datatables/dataTables.bootstrap.css" %}">
+{% endblock %}
+{% block maintitulocuerpo %}<i class="fa fa-glass"></i> Bar {% endblock %}
+{% block secondtitulocuerpo %} <strong>Restaurant: </strong>{{restaurant}}{% endblock %}
+{% block contenido %}
+<div class="row"> 
+    <div class="col-lg-12">
+        <div class="box">
+                <div class="box-body">
+                  {% for pedido in pedidos %}
+                  <div class="well">
+                    {% if pedido.estado = 'pedido' %}
+    <span class="label label-info ">Nuevo</span>
+    {% elif pedido.estado == 'entregado' %}
+    <span class="label label-warning ">Entregado</span>
+    {% elif pedido.estado == 'cuenta' %}
+    <span class="label label-default ">Cuenta</span>
+  {% endif%} 
+                  <strong>Mesa {{pedido.mesa.nombre}}</strong>  
+                  Bebida: {{pedido.bebida}} Categoria: {{pedido.categoria}} Cantidad: {{pedido.cantidad}} 
+                  {% if pedido.estado == "pedido"%}
+                  <a href="/actualizar/pedido/bebida/{{pedido.id}}?next={{request.path}}" class="btn btn-success pull-right btn-xs" ><i class="fa fa-check" ></i> Entregado</a> 
+                  {% endif %}
+                  </div>
+                  {% endfor %}
+                </div><!-- /.box-body -->
+            </div>
+    <!-- /.col-lg-12 -->
+    </div>
+</div>
+<!-- /.row -->
+{% endblock %}
+{% block  loadfilesbelow %}
+    <!-- DataTables -->
+    <script src="{% static "webapp/plugins/datatables/jquery.dataTables.min.js"%}"></script>
+    <script src="{% static "webapp/plugins/datatables/dataTables.bootstrap.min.js"%}"></script>
+    <script>
+      $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+    });
+    $(document).ready(function() {
+        $('#tabla').dataTable({
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ registros por pagina",
+            "zeroRecords": "No se encontraron registros",
+            "info": "Mostrando pagina _PAGE_ de _PAGES_",
+            "infoEmpty": "Ningun registro disponible",
+            "sLoadingRecords": "Cargando...",
+            "sSearch":         "Buscar: ",
+            "oPaginate": {
+                "sFirst":    "Primero",
+                "sLast":     "Último",
+                "sNext":     "Siguiente",
+                "sPrevious": "Anterior"
+    },
+        },
+        "order": [[ 0, "desc" ]]
+    });
+    });
+    $(document).ready(function(){
+ setInterval(function(){cache_clear()},5000);
+ });
+ function cache_clear()
+{
+ window.location.reload(true);
+}
+    </script>
+{% endblock%}

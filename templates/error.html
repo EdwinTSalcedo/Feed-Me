@@ -1,0 +1,22 @@
+<!--VISTA PARA EL INGRESO DE USUARIOS NO REGISTRADOS -->
+{% extends 'overbase.html' %}
+{% load static from staticfiles %}
+{% load bootstrap %}
+{% block contenido %}
+<style type="text/css">html { overflow-x:hidden; }</style>
+<div class="row">
+    <div class="col-sm-8 col-sm-offset-2 text" style="margin-top:20px;">
+        <h1><strong>Gracias por su visita!</strong> </h1>
+        <div class="description">
+            <p>
+                <strong>Para utilizar el sistema debe autentificarse.</strong>
+            {% if redirect_to %}
+            <a href='/login/?next={{ redirect_to }}' class="btn btn-success">Ingresar</a> 
+            {% else %}
+            <a href="/login" class="btn btn-success " >Ingresar</a>
+            {% endif %}
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,271 @@
+<!--BASE PARA TODAS LAS VISTAS DE LA APLICACION WEB -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    {% load static from staticfiles %}
+    <title>Feed Me</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="{% static "webapp/bootstrap/css/bootstrap.css"%}">
+    <link rel="stylesheet" href="{% static "webapp/plugins/font-awesome/css/font-awesome.min.css"%}">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="{% static "webapp/dist/css/AdminLTE.css"%} ">
+    <link rel="stylesheet" href="{% static "webapp/dist/css/skins/_all-skins.css"%}">
+    <link rel="stylesheet" href="{% static "webapp/plugins/iCheck/flat/blue.css"%}">
+    <link rel="stylesheet" href="{% static "webapp/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css"%}">
+    <script src="{% static "webapp/plugins/jQuery/jQuery-2.1.4.min.js" %}"></script>
+    <link rel="shortcut icon" href="http://icons.iconseeker.com/png/fullsize/msn/online-1.png">
+    {% block loadfiles %}
+    {% load tags %}
+    {% endblock %}  
+  </head>
+  <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+      <header class="main-header">
+        <a href="/home" class="logo">
+          <span class="logo-mini"><b>FEED</b></span>
+          <span class="logo-lg"><b><i class="fa fa-cutlery"></i> FEED ME</b></span>
+        </a>
+        <nav class="navbar navbar-static-top" role="navigation">
+          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+          </a>
+          <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+              <li class="dropdown user user-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  {% if restaurant %}
+                    <img src="{{restaurant.foto.url}}" class="user-image" alt="User Image">
+                  {% else %}
+                    <img src="/media/default_restaurant.jpg" class="user-image" alt="User Image">
+                  {% endif %}
+                  
+                  <span class="hidden-xs">{%if request.user.first_name and request.user.last_name%}
+              {{ request.user.first_name }} {{ request.user.last_name}} 
+              {%else%}
+              {{request.user}}
+              {%endif%}</span>
+                </a>
+                <ul class="dropdown-menu">
+                  <!-- User image -->
+                  <li class="user-header">
+                    {% if restaurant.foto %}
+                    <img src="{{restaurant.foto.url}}" class="img-circle" alt="User Image">
+                  {% else %}
+                    <img src="/media/default_restaurant.jpg" class="img-circle" alt="User Image">
+                  {% endif %}
+                    <p>
+                      {%if request.user.first_name and request.user.last_name%}
+              {{ request.user.first_name }} {{ request.user.last_name}} 
+              {%else%}
+              {{request.user}}
+              {%endif%} - {{restaurant}}
+              
+                      <small>{% if request.user|has_group:"Administradores" %}
+              Administrador
+              {% elif request.user|has_group:"Camareros" %}
+              Camarero
+              {% elif request.user|has_group:"Runners" %}
+              Runner
+              {% else %}
+              Cliente
+              {% endif %}</small>
+                    </p>
+                  </li>
+                  <li class="user-footer">
+                    <div class="pull-left">
+                      <a href="/perfil" class="btn btn-default btn-flat">Perfil</a>
+                    </div>
+                    <div class="pull-right">
+                      <a href="/logout" class="btn btn-default btn-flat">Salir</a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+      <aside class="main-sidebar">
+        <section class="sidebar">
+          <div class="user-panel">
+            <div class="pull-left image">
+              {% if restaurant.foto %}
+                    <img src="{{restaurant.foto.url}}" class="img-circle" alt="User Image">
+                  {% else %}
+                    <img src="/media/default_restaurant.jpg" class="img-circle" alt="User Image">
+                  {% endif %}
+            </div>
+            <div class="pull-left info">
+              <p>{%if request.user.first_name and request.user.last_name%}
+              {{ request.user.first_name }} {{ request.user.last_name}} 
+              {%else%}
+              {{request.user}}
+              {%endif%}</p>
+              <a href="#"><i class="fa fa-circle text-success"></i> En línea</a>
+            </div>
+          </div>
+          <form action="#" method="get" class="sidebar-form">
+            <div class="input-group">
+              <input type="text" name="q" class="form-control" placeholder="Buscar...">
+              <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+              </span>
+            </div>
+          </form>
+          <!-- SECCION DEL MENU PRINCIPAL -->
+          <ul class="sidebar-menu">
+            <li class="header">MENU PRINCIPAL</li>
+            <li
+            {% if request.path == "/home/" %}
+            class="active"
+            {% endif %}
+            ><a href="/home"><i class="fa fa-dashboard"></i> <span>Home</span></a></li>
+            <li
+            {% if request.path == "/mesas/" %}
+            class="active"
+            {% endif %}
+            >
+              <a href="/mesas">
+                <i class="fa fa-cube"></i> <span>Mesas</span></i>
+              </a>
+            </li>
+            <li
+            {% if request.path == "/platos/" %}
+            class="active"
+            {% endif %}
+            >
+              <a href="/platos">
+                <i class="fa fa-cutlery"></i> <span>Platos</span></i>
+              </a>
+            </li>
+            <li
+            {% if request.path == "/bebidas/" %}
+            class="active"
+            {% endif %}
+            >
+              <a href="/bebidas">
+                <i class="fa fa-coffee"></i> <span>Bebidas</span></i>
+              </a>
+            </li>
+            <li 
+            {% if request.path == "/personal/" %}
+            class="active"
+            {% endif %}
+            >
+              <a href="/personal">
+                <i class="fa fa-users"></i> <span>Personal</span></i>
+              </a>
+            </li>
+            {% if request.user|has_group:"Administradores" %}
+            <li>
+              <a href="/mesas">
+                <i class="fa fa-commenting"></i> <span>Recomendaciones</span></i>
+              </a>
+            </li>
+            <li
+            {% if request.path == "/restaurantes/" %}
+            class="active"
+            {% endif %}
+            >
+              <a href="/restaurantes">
+                <i class="fa fa-building-o"></i> <span>Restaurantes</span></i>
+              </a>
+            </li>
+            <li
+          {% if request.path == "/categorias/" %}
+            class="active"
+            {% endif %}
+            >
+              <a href="#">
+                <i class="fa fa-gear"></i>
+                <span>Ajustes</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu menu-open" style="display: none;">
+                <li><a href="/categorias"><i class="fa fa-sliders"></i> Categorias</a></li>
+              </ul>
+            </li>
+            {% endif %}
+            {% if request.user|has_group:"Cocina" %}
+            <li
+            {% if request.path == "/cocina/" %}
+            class="active"
+            {% endif %}
+            >
+              <a href="/cocina">
+                <i class="fa fa-glass"></i> <span>Cocina</span></i>
+              </a>
+            </li>
+            {% endif %}
+            {% if request.user|has_group:"Bar" %}
+            <li
+            {% if request.path == "/bar/" %}
+            class="active"
+            {% endif %}
+            >
+              <a href="/bar">
+                <i class="fa fa-glass"></i> <span>Bar</span></i>
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+        </section>
+      </aside>
+      <div class="content-wrapper">
+        <section class="content-header" >
+          <h1>
+            {% block maintitulocuerpo %}
+              <i class="fa fa-dashboard"></i> Dashboard  
+            {% endblock %}
+            <small>{% block secondtitulocuerpo %}
+                {% endblock %}</small>
+          </h1>
+          <ol class="breadcrumb">
+          <a class="btn btn-default hidden-xs hidden-sm" href="javascript:history.back();" type="button" style="float:right;"> <i class="fa fa-arrow-circle-left"></i> Volver</a>
+          </ol> 
+        </section>
+
+        <section class="content">
+        {% block contenido %}
+
+        {% endblock %}
+        </section>
+
+      </div>
+      <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+          <b> Feed Me Team </b> - 2016
+        </div>
+        <a href="/admin" class="btn btn-default" target="_blank"><i class="fa fa-gears " ></i> Administración</a>
+      </footer>
+
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    
+    <script>
+      $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    <script src="{% static "webapp/bootstrap/js/bootstrap.min.js"%} "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+    <script src="{% static "webapp/plugins/daterangepicker/daterangepicker.js"%} "></script>
+    <script src="{% static "webapp/plugins/datepicker/bootstrap-datepicker.js"%} "></script>
+    <script src="{% static "webapp/plugins/slimScroll/jquery.slimscroll.min.js"%} "></script>
+    <script src="{% static "webapp/plugins/fastclick/fastclick.min.js"%} "></script>
+    <script src="{% static "webapp/dist/js/app.min.js"%} "></script>
+    <script src="{% static "webapp/dist/js/demo.js"%} "></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css">
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.js"></script>
+    <script src="{% static "webapp/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"%} "></script>
+
+    <script type="text/javascript">
+    {% for area in areas_radiologia %}
+      $('#a{{area.id}}').appendTo("body");
+    {% endfor %}
+    </script>
+
+    {% block loadfilesbelow %}
+    {% endblock %}
+  </body>
+</html>

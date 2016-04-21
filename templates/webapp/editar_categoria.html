@@ -1,0 +1,36 @@
+<!--VISTA PARA LA EDICION DE UNA CATEGORIA -->
+{% extends 'webapp/base.html' %}
+{% load static from staticfiles %}
+{% load tags %}
+{% block loadfiles %}
+    <script type="text/javascript" src="{% static "admin/js/admin/RelatedObjectLookups.js"%}"></script>
+    {% load bootstrap %}
+    {{ form.media }}
+{% endblock %}
+{% block maintitulocuerpo %}<i class="fa fa-sliders"></i> Editar Categoría{% endblock %}
+{% block secondtitulocuerpo %}{% endblock %}
+{% block contenido %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <!-- general form elements -->
+              <div class="box box-primary">
+                <div class="box-header with-border">
+                  <h3 class="box-title"><i class="fa fa-pencil"></i> Editar Categoría</h3>
+                </div><!-- /.box-header -->
+                <!-- form start -->
+                  <div class="box-body">
+                <form role="form" method="post" action="." enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form | bootstrap  }}
+                  </div><!-- /.box-body -->
+                  <div class="box-footer">
+                    <a href="{{redirect_to}}" type="button" class="btn btn-danger"><i class="fa fa-remove"></i> Cancelar</a>
+                    <button type="submit" class="btn btn-primary" style="float:right;"><i class="fa fa-save"></i> Guardar</button>
+                </form> 
+                  </div>
+              </div><!-- /.box -->          
+        </div>
+                <!-- /.col-lg-6 -3-->
+    </div>
+            <!-- /.row -->
+{% endblock %}

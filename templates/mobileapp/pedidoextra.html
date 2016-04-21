@@ -1,0 +1,46 @@
+<!-- FORMULARIO DEL PEDIDO EXTRA -->
+{% extends 'mobileapp/overbase.html' %}
+{% load static from staticfiles %}
+
+{% block title %} Cuenta Propia{% endblock %}
+Add a comment to this line
+{% block loadfiles %}
+{% load mathfilters %}
+{% load bootstrap %}
+{% load tags %}
+  <link href="{% static "css/plugins/morris/morris-0.5.1.css"%}" rel="stylesheet">
+  <!--Archivos para el plugin de morris.js-->
+  <script type="text/javascript" src="{% static "js/plugins/morris/raphael-2.1.0.min.js"%}"></script>
+  <script type="text/javascript" src="{% static "js/plugins/morris/morris.js"%}"></script>
+{% endblock %}
+{% block content %}
+<div class="row">
+        <div class="col-lg-12" style="margin-bottom:10px;">
+          <a href="/home/cliente/{{mesa.id}}/" class="btn btn-warning btn-sm" style="margin-right:5px;" data-toggle="modal" ><i class="fa fa-arrow-circle-left"> Atras </i></a>
+        </div>
+</div>
+<!-- LISTADO PEDIDO LISTADO PEDIDO LISTADO PEDIDO LISTADO PEDIDO LISTADO PEDIDO LISTADO PEDIDO LISTADO PEDIDO -->
+<div class="row">
+  <div class="col-lg-12">
+      {% if info  %}
+      Tu pedido extra se ha completado, presiona en Atras para volver al menu principal.
+      {% else %}
+      <h3 ><i class="fa fa-plus"></i> Pedido Extra</h3>
+      <form role="form" action="" method="post" class="login-form" enctype="multipart/form-data">
+        {% csrf_token %}
+          <fieldset>
+              <div class="form-group">
+                  {{ form | bootstrap }}
+              </div>
+              <input type="submit" class="btn btn-success btn-block" value="Solicitar"/>  
+          </fieldset>
+      </form>
+      {% endif %}
+  </div>
+</div><!-- /.box -->
+{% endblock %}
+{% block  loadfilesbelow %}
+   <script src="{% static "js/morris/chart-data-morris.js"%}"></script>
+   <script src="{% static "js/tablesorter/jquery.tablesorter.js"%}"></script>
+   <script src="{% static "js/tablesorter/tables.js"%}"></script>
+{% endblock%}

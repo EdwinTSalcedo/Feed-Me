@@ -1,0 +1,89 @@
+<!--VISTA PARA VER EL LISTADO DE MESAS -->
+{% extends 'webapp/base.html' %}
+{% load static from staticfiles %}
+{% load tags %}
+{% block loadfiles %}
+<!-- DataTables -->
+    <link rel="stylesheet" href="{% static "webapp/plugins/datatables/dataTables.bootstrap.css" %}">
+{% endblock %}
+{% block maintitulocuerpo %}<i class="fa fa-cube"></i> Mesas {% endblock %}
+{% block secondtitulocuerpo %} <strong>Restaurant: </strong>{{restaurant}}{% endblock %}
+{% block contenido %}
+<!-- ELIMINAR MODAL-->
+  <div id="eliminar" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;overflow:hidden;">
+  <div class="modal-dialog" >
+      <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 id="myModalLabel">Quitar Mesa</h4>
+          </div>
+          <div class="modal-body">
+            <p>Esta seguro de quitar una <strong> mesa </strong>?</p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancelar</button>
+            <a class="btn btn-danger btn-large" href="/actualizar/mesas/quitar/?next={{request.path}}" data-toggle="modal">
+            <i class="fa fa-times"></i> Quitar</a>
+          </div>
+         </div>
+     </div>
+  </div>
+ <!-- ELIMINAR MODAL -->
+<div class="row"> 
+    <div class="col-lg-12">
+        <div class="box">
+                <div class="box-header">
+                  {% if request.user|has_group:"Administradores" %}
+                   {% if mesas %}
+                   <a href="#eliminar" class="btn btn-danger btn-sm pull-right" data-toggle="modal"  ><i class="fa fa-plus "> Quitar Mesa </i></a>
+                   {% endif %}
+                   <a href="/actualizar/mesas/agregar/?next={{request.path}}" class="btn btn-success btn-sm pull-right" style="margin-right:5px;" ><i class="fa fa-plus " > Agregar Mesa </i></a>
+                  {% endif %} 
+                </div>
+                <div class="box-body">
+                  {% for mesa in mesas %}
+                  <a href="/detalle/mesa/{{mesa.id}}">
+                  <div class="well">Mesa {{mesa.nombre}}
+                    {% if mesa.libre %}
+                        <span class="label label-success pull-right">Libre</span>
+                    {% else %}
+                        <span class="label label-danger pull-right">Ocupado</span>
+                    {% endif %}
+                  </div>
+                  {% endfor %}
+                </div><!-- /.box-body -->
+            </div>
+    <!-- /.col-lg-12 -->
+    </div>
+</div>
+<!-- /.row -->
+{% endblock %}
+{% block  loadfilesbelow %}
+    <!-- DataTables -->
+    <script src="{% static "webapp/plugins/datatables/jquery.dataTables.min.js"%}"></script>
+    <script src="{% static "webapp/plugins/datatables/dataTables.bootstrap.min.js"%}"></script>
+    <script>
+      $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+    });
+    $(document).ready(function() {
+        $('#tabla').dataTable({
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ registros por pagina",
+            "zeroRecords": "No se encontraron registros",
+            "info": "Mostrando pagina _PAGE_ de _PAGES_",
+            "infoEmpty": "Ningun registro disponible",
+            "sLoadingRecords": "Cargando...",
+            "sSearch":         "Buscar: ",
+            "oPaginate": {
+                "sFirst":    "Primero",
+                "sLast":     "Último",
+                "sNext":     "Siguiente",
+                "sPrevious": "Anterior"
+    },
+        },
+        "order": [[ 0, "desc" ]]
+    });
+    });
+    </script>
+{% endblock%}

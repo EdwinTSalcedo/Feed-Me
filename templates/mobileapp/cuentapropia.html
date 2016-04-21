@@ -1,0 +1,86 @@
+<!-- VISTA DE CUENTA PROPIA -->
+{% extends 'mobileapp/overbase.html' %}
+{% load static from staticfiles %}
+
+{% block title %} Cuenta Propia{% endblock %}
+Add a comment to this line
+{% block loadfiles %}
+{% load mathfilters %}
+{% load tags %}
+  <link href="{% static "css/plugins/morris/morris-0.5.1.css"%}" rel="stylesheet">
+  <!--Archivos para el plugin de morris.js-->
+  <script type="text/javascript" src="{% static "js/plugins/morris/raphael-2.1.0.min.js"%}"></script>
+  <script type="text/javascript" src="{% static "js/plugins/morris/morris.js"%}"></script>
+{% endblock %}
+{% block content %}
+<div class="row">
+        <div class="col-lg-12" style="margin-bottom:10px;">
+          <a href="/home/cliente/{{mesa.id}}/" class="btn btn-warning btn-sm" style="margin-right:5px;" data-toggle="modal" ><i class="fa fa-arrow-circle-left"> Atras </i></a>
+        </div>
+</div>
+<!-- LISTADO PEDIDO -->
+<div class="row">
+  <div class="col-lg-12">
+      {% if pedidosplato or pedidosbebida %}
+      <h3 ><i class="fa fa-plus"></i> Cuenta Final</h3>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Detalle</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for pplato in pedidosplato %}
+          <tr>
+            <td>{{ pplato.plato }}</td>
+            <td>{{ pplato.cantidad }} </td>
+            <td>{{pplato.cantidad|mul:pplato.plato.precio}} Bs.</td>
+          </tr>
+          {% endfor%}
+          {% for pbebida in pedidosbebida %}
+          <tr>
+            <td>{{ pbebida.bebida }}</td>
+            <td>{{ pbebida.cantidad }} </td>
+            <td>{{pbebida.cantidad|mul:pbebida.bebida.precio}} Bs.</td>
+          </tr>
+          {% endfor%}
+        </tbody>
+      </table>
+      <h4 align="right"><i class="fa fa-plus"></i> Total: {{costototal}}</h4>
+      <!-- COMPLETAR MODAL
+        <div id="terminar" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;overflow:hidden;">
+        <div class="modal-dialog" >
+            <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                  <h4 id="myModalLabel">Finalizar Compra</h4>
+                </div>
+                <div class="modal-body">
+                  <p>Esta seguro de finalizar la compra?</p>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancelar</button>
+                  <a class="btn btn-success btn-large" href="/facturas/?factura=completado" data-toggle="modal">
+                  <i class="fa fa-check-circle"></i> Finalizar</a>
+                </div>
+               </div>
+           </div>
+        </div>
+        COMPLETAR MODAL 
+      <a href="#terminar" type="button" class="btn btn-success" style="float:right;margin-left:5px;" data-toggle="modal"><i class="fa fa-check-circle"></i> Finalizar</a>-->
+      <div class="col-lg-12" style="margin-bottom:10px;">
+        <a href="/pedircuenta/cliente/{{mesa.id}}/" class="btn btn-success " style="margin-right:5px;" data-toggle="modal" > <i class="fa fa-check"></i> Pedir Cuenta </a>
+      </div>
+    {% else %}
+    No existe ningun pedido
+    {% endif %}
+  </div>
+</div><!-- /.box -->
+{% endblock %}
+{% block  loadfilesbelow %}
+   <script src="{% static "js/morris/chart-data-morris.js"%}"></script>
+   <script src="{% static "js/tablesorter/jquery.tablesorter.js"%}"></script>
+   <script src="{% static "js/tablesorter/tables.js"%}"></script>
+{% endblock%}

@@ -1,0 +1,236 @@
+<!-- VISTA DE MENU -->
+{% extends 'mobileapp/overbase.html' %}
+{% load static from staticfiles %}
+
+{% block title %} Menu {% endblock %}
+Add a comment to this line
+{% block loadfiles %}
+{% load mathfilters %}
+{% load tags %}
+  <link href="{% static "css/plugins/morris/morris-0.5.1.css"%}" rel="stylesheet">
+  <!--Archivos para el plugin de morris.js-->
+  <script type="text/javascript" src="{% static "js/plugins/morris/raphael-2.1.0.min.js"%}"></script>
+  <script type="text/javascript" src="{% static "js/plugins/morris/morris.js"%}"></script>
+{% endblock %}
+{% block content %}
+<div class="row">
+        <div class="col-lg-12" style="margin-bottom:10px;">
+          <a href="/home/cliente/{{mesa.id}}/" class="btn btn-warning btn-sm" style="margin-right:5px;" data-toggle="modal" ><i class="fa fa-arrow-circle-left"> Atras </i></a>
+        </div>
+</div>
+<!-- LISTADO PEDIDO  -->
+<div class="row">
+  <div class="col-lg-12">
+      {% if pedidosplato or pedidosbebida %}
+      <h3 ><i class="fa fa-plus"></i> Pedidos</h3>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Detalle</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for pplato in pedidosplato %}
+           <!-- CANCELAR PEDIDO-->
+            <div id="cancelarplato{{pplato.id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;overflow:hidden;">
+            <div class="modal-dialog" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                      <h4 id="myModalLabel">Cancelar Pedido</h4>
+                    </div>
+                    <div class="modal-body">
+                      <p>Esta seguro de cancelar el <strong> pedido </strong>?</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancelar</button>
+                      <a class="btn btn-danger btn-large" href="/cancelar/plato/{{pplato.id}}?next={{request.path}}" data-toggle="modal">
+                      <i class="fa fa-trash"></i> Cancelar</a>
+                    </div>
+                   </div>
+               </div>
+            </div>
+           <!-- CANCELAR PEDIDO -->
+          <tr>
+            <td>{{ pplato.plato }}</td>
+            <td>{{ pplato.cantidad }} </td>
+            <td>{{pplato.cantidad|mul:pplato.plato.precio}} Bs.</td>
+            <td align="center">
+              {% if pplato.estado == "pedido" %}
+              <a href="#cancelarplato{{pplato.id}}"  data-toggle="modal" >
+              <span data-toggle="tooltip" data-placement="bottom" data-original-title="Eliminar Plato" class="btn btn-danger btn-sm">
+                <i class="fa fa-close" data-target="#confirm-delete"> </i>
+              </span>
+              </a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor%}
+          {% for pbebida in pedidosbebida %}
+           <!-- CANCELAR PEDIDO-->
+            <div id="cancelarbebida{{pbebida.id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;overflow:hidden;">
+            <div class="modal-dialog" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                      <h4 id="myModalLabel">Cancelar Pedido</h4>
+                    </div>
+                    <div class="modal-body">
+                      <p>Esta seguro de cancelar el <strong> pedido </strong>?</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancelar</button>
+                      <a class="btn btn-danger btn-large" href="/cancelar/bebida/{{pbebida.id}}?next={{request.path}}" data-toggle="modal">
+                      <i class="fa fa-trash"></i> Cancelar</a>
+                    </div>
+                   </div>
+               </div>
+            </div>
+           <!-- CANCELAR PEDIDO -->
+          <tr>
+            <td>{{ pbebida.bebida }}</td>
+            <td>{{ pbebida.cantidad }} </td>
+            <td>{{pbebida.cantidad|mul:pbebida.bebida.precio}} Bs.</td>
+            <td align="center">
+              {% if pbebida.estado == "pedido" %}
+              <a href="#cancelarbebida{{pbebida.id}}"  data-toggle="modal" >
+              <span data-toggle="tooltip" data-placement="bottom" data-original-title="Eliminar Plato" class="btn btn-danger btn-sm">
+                <i class="fa fa-close" data-target="#confirm-delete"> </i>
+              </span>
+              </a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor%}
+        </tbody>
+      </table>
+      <!-- COMPLETAR MODAL
+        <div id="terminar" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;overflow:hidden;">
+        <div class="modal-dialog" >
+            <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                  <h4 id="myModalLabel">Finalizar Compra</h4>
+                </div>
+                <div class="modal-body">
+                  <p>Esta seguro de finalizar la compra?</p>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancelar</button>
+                  <a class="btn btn-success btn-large" href="/facturas/?factura=completado" data-toggle="modal">
+                  <i class="fa fa-check-circle"></i> Finalizar</a>
+                </div>
+               </div>
+           </div>
+        </div>
+        COMPLETAR MODAL 
+      <a href="#terminar" type="button" class="btn btn-success" style="float:right;margin-left:5px;" data-toggle="modal"><i class="fa fa-check-circle"></i> Finalizar</a>-->
+    {% endif %}
+  </div>
+</div><!-- /.box -->
+<div class="row">
+  <div class="col-xs-12">
+    <ul class="nav nav-tabs">
+      <li class="active"><a data-toggle="tab" href="#menu1">Platos</a></li>
+      <li><a data-toggle="tab" href="#menu2">Bebidas</a></li>
+    </ul>
+
+    <div class="tab-content">
+    <h3 ><i class="fa fa-plus"></i> Menu</h3>
+      <div id="menu1" class="tab-pane fade in active">
+        <h3>Platos</h3>
+        {% for plato in platos %}
+          <!-- DETALLE PLATO-->
+            <div id="detalleplato{{plato.id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                      <b><h4 id="myModalLabel">{{plato}}</b> <small><strong>Precio:</strong> {{plato.precio}}</small></h4> 
+                    </div>
+                    <div class="modal-body" style="margin-bottom:-25px;">
+                      <p align="center"><img class="img-responsive img-rounded" src="{{plato.foto.url}}"></p>
+                      <p>{{plato.descripcion}}</p>
+                      <p><strong>Categoria:</strong> {{plato.categoria}}</p>
+                      <p>
+                        <form role="form" method="post" action="/pedido/plato/{{mesa.id}}/{{plato.id}}/?next={{request.path}}" enctype="multipart/form-data" class="form">
+                          {% csrf_token %}
+                          {{ form }}
+                      </p>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancelar</button>
+                      <button type="submit" class="btn btn-success btn-large"><i class="fa fa-check"></i> Agregar</button>
+                      </form>
+                    </div>
+                   </div>
+               </div>
+            </div>
+          <!-- DETALLE PLATO -->
+          <a href="#detalleplato{{plato.id}}" data-toggle="modal">
+            <div class="well">
+                <span style="font-size: 130%;">{{plato}}</span>           
+                <span class="label label-success pull-right" style="margin-top:10px;">{{plato.precio}} Bs.</span>
+                <br>
+                <span style="color: black;" class="hidden-xs">
+                {{plato.descripcion|slice:":85" }}
+                </span>
+            </div> 
+          </a>
+        {% endfor %}
+      </div>
+      <div id="menu2" class="tab-pane fade">
+        <h3>Bebidas</h3>
+        {% for bebida in bebidas %}
+          <!-- DETALLE BEBIDA-->
+            <div id="detallebebida{{bebida.id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                      <b><h4 id="myModalLabel">{{bebida}}</b> <small><strong>Precio:</strong> {{bebida.precio}}</small></h4> 
+                    </div>
+                    <div class="modal-body">
+                      <p align="center"><img class="img-responsive img-rounded" src="{{bebida.foto.url}}"></p>
+                      <p>{{bebida.descripcion}}</p>
+                      <p><strong>Categoria:</strong> {{bebida.categoria}}</p>
+                      <p>
+                        <form role="form" method="post" action="/pedido/bebida/{{mesa.id}}/{{bebida.id}}/?next={{request.path}}" enctype="multipart/form-data" class="form">
+                          {% csrf_token %}
+                          {{ form }}
+                      </p>
+                    </div>
+                    <div class="modal-footer" style="margin-bottom:-25px;">
+                      <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancelar</button>
+                      <button type="submit" class="btn btn-success btn-large"><i class="fa fa-check"></i> Agregar</button>
+                      </form>
+                    </div>
+                   </div>
+               </div>
+            </div>
+          <!-- DETALLE BEBIDA -->
+          <a href="#detallebebida{{bebida.id}}" data-toggle="modal">
+            <div class="well">
+                <span style="font-size: 130%;">{{bebida}}</span>           
+                <span class="label label-success pull-right" style="margin-top:10px;">{{bebida.precio}} Bs.</span>
+                <br>
+                <span style="color: black;" class="hidden-xs">
+                {{bebida.descripcion|slice:":85" }}
+                </span>
+            </div> 
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block  loadfilesbelow %}
+   <script src="{% static "js/morris/chart-data-morris.js"%}"></script>
+   <script src="{% static "js/tablesorter/jquery.tablesorter.js"%}"></script>
+   <script src="{% static "js/tablesorter/tables.js"%}"></script>
+{% endblock%}

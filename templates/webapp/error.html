@@ -1,0 +1,30 @@
+<!--VISTA DE ERROR, PARA LA ACCIONES NO PERMITIDAS POR PARTE DE LOS USUARIOS -->
+{% extends 'siga/base.html' %}
+{% block title %} Detalle de la Actividad {% endblock %}
+{% load static from staticfiles %}
+{% block loadfiles %}
+{% endblock %}
+{% block maintitulocuerpo %}{% endblock %}
+{% block secondtitulocuerpo %}{{actividad.nombre}}
+{% endblock %}
+{% block contenido %}
+<div class="row">
+  <div class="col-lg-2">
+  </div>
+  <!-- /.col-lg-12 -->
+  <div class="col-lg-8">
+      <div class="jumbotron">
+
+          <h1><i class="fa fa-warning"></i> Advertencia</h1>
+          <p>Acceso no autorizado. Para volver presione en volver.</p>
+          <p align="right"><a href="/home_almacen" class="btn btn-primary btn-lg" role="button"><i class="fa fa-home"></i> Volver</a>
+          </p>
+      </div>
+  </div>
+  <div class="col-lg-2">
+  </div>
+  <!-- /.col-lg-12 -->
+</div>
+{% endblock %}
+{% block loadfilesbelow %}
+{% endblock %}

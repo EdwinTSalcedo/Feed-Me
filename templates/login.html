@@ -1,0 +1,63 @@
+<!--VISTA PARA EL LOGIN-->
+{% extends 'overbase.html' %}
+    
+{% load static from staticfiles %}
+{% load bootstrap %}
+{% block contenido %}
+<div class="inner-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2 text">
+                <h1><strong>Feed Me</strong> </h1>
+                <div class="description">
+                    <p>
+                        <strong>Manten tu Restaurant Organizado...</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4 form-box">
+           
+                <div class="form-top">
+                    <div class="form-top-left">
+                        <h3>Iniciar Sesión</h3>
+                    </div>
+                    <div class="form-top-right">
+                        <i class="fa fa-cutlery"></i>
+                    </div>
+                </div>
+                <div class="form-bottom">
+                    <form role="form" action="{% url 'django.contrib.auth.views.login' %}" method="post" class="login-form">
+                    {% csrf_token %}
+                        <div class="form-group">
+                            {{ form.username | bootstrap }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.password | bootstrap }}
+                        </div>
+                        <button type="submit" class="btn">Ingresar</button>
+                        <input type="hidden" name="next" 
+                                            value="{{ next }}"/>
+                    </form>
+                    <p align="right" style="padding-top:5px;margin-bottom:-10px;"><a href="/signup/" style="color: #fff;">Crear Cuenta</a> </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3 social-login">
+                <h3>...o revisa la aplicación en:</h3>
+                <div class="social-login-buttons">
+                    <a class="btn btn-link-2" href="#">
+                        <i class="fa fa-youtube"></i> YouTube
+                    </a>
+                    <a class="btn btn-link-2" href="#">
+                        <i class="fa fa-facebook"></i> Facebook
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>        
+{% endblock %}
+

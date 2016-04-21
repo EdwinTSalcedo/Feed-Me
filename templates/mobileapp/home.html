@@ -1,0 +1,115 @@
+<!-- VISTA DE LOS CUATRO BOTONES-->
+{% extends 'mobileapp/overbase.html' %}
+{% load static from staticfiles %}
+
+{% block title %} Home {% endblock %}
+Add a comment to this line
+{% block loadfiles %}
+  <link href="{% static "css/plugins/morris/morris-0.5.1.css"%}" rel="stylesheet">
+  <!--Archivos para el plugin de morris.js-->
+  <script type="text/javascript" src="{% static "js/plugins/morris/raphael-2.1.0.min.js"%}"></script>
+  <script type="text/javascript" src="{% static "js/plugins/morris/morris.js"%}"></script>
+{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-xs-6">
+    <div class="panel panel-danger">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-12">
+            <i class="fa fa-cube fa-5x"></i>
+          </div>
+        </div>
+      </div>
+      <a href="/cuentatotal/cliente/{{mesa.id}}">
+      <div class="panel-footer announcement-bottom">
+        <div class="row">
+          <div class="col-xs-6">
+            Cuenta Total
+          </div>
+          <div class="col-xs-6 text-right">
+            <i class="fa fa-arrow-circle-right"></i>
+          </div>
+        </div>
+      </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-xs-6">
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-12">
+            <i class="fa fa-money fa-5x"></i>
+          </div>
+        </div>
+      </div>
+      <a href="/cuentapropia/cliente/{{mesa.id}}">
+      <div class="panel-footer announcement-bottom">
+        <div class="row">
+          <div class="col-xs-6">
+             Pedir Cuenta
+          </div>
+          <div class="col-xs-6 text-right">
+            <i class="fa fa-arrow-circle-right"></i>
+          </div>
+        </div>
+      </div>
+      </a>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-6">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-12">
+            <i class="fa fa-cutlery fa-5x"></i>
+          </div>
+        </div>
+      </div>
+      <a href="/menu/cliente/{{mesa.id}}">
+      <div class="panel-footer announcement-bottom">
+        <div class="row">
+          <div class="col-xs-6">
+            Menu
+          </div>
+          <div class="col-xs-6 text-right">
+            <i class="fa fa-arrow-circle-right"></i>
+          </div>
+        </div>
+      </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-xs-6">
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-xs-6">
+            <i class="fa fa-plus fa-5x"></i>
+          </div>
+        </div>
+      </div>
+      <a href="/pedidoextra/cliente/{{mesa.id}}">
+      <div class="panel-footer announcement-bottom">
+        <div class="row">
+          <div class="col-xs-6">
+            Extras
+          </div>
+          <div class="col-xs-6 text-right">
+            <i class="fa fa-arrow-circle-right"></i>
+          </div>
+        </div>
+      </div>
+      </a>
+    </div>
+  </div>
+</div><!-- /.row -->
+{% endblock %}
+{% block  loadfilesbelow %}
+   <script src="{% static "js/morris/chart-data-morris.js"%}"></script>
+   <script src="{% static "js/tablesorter/jquery.tablesorter.js"%}"></script>
+   <script src="{% static "js/tablesorter/tables.js"%}"></script>
+{% endblock%}

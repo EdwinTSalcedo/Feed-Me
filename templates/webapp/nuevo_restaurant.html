@@ -1,0 +1,35 @@
+<!--VISTA PARA LA CREACION DE UN RESTAURANT -->
+{% extends 'webapp/base.html' %}
+{% load static from staticfiles %}
+{% load tags %}
+{% block loadfiles %}
+    {% load bootstrap %}
+    {{ form.media }}
+{% endblock %}
+{% block maintitulocuerpo %}<i class="fa fa-building"></i> Nuevo restaurant{% endblock %}
+{% block secondtitulocuerpo %}{% endblock %}
+{% block contenido %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <!-- general form elements -->
+              <div class="box box-primary">
+                <div class="box-header with-border">
+                  <h3 class="box-title"><i class="fa fa-plus"></i> Nuevo restaurant</h3>
+                </div><!-- /.box-header -->
+                <!-- form start -->
+                  <div class="box-body">
+                <form role="form" method="post" action="." enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form | bootstrap  }}
+                  </div><!-- /.box-body -->
+                  <div class="box-footer">
+                    <a href="{{redirect_to}}" type="button" class="btn btn-danger"><i class="fa fa-remove"></i> Cancelar</a>
+                    <button type="submit" class="btn btn-primary" style="float:right;"><i class="fa fa-save"></i> Guardar</button>
+                </form> 
+                  </div>
+              </div><!-- /.box -->          
+        </div>
+                <!-- /.col-lg-6 -3-->
+    </div>
+            <!-- /.row -->
+{% endblock %}

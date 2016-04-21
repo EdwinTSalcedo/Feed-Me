@@ -1,0 +1,44 @@
+<!-- VISTA DEL LOGIN  -->
+{% extends 'mobileapp/overbase.html' %}
+    <title>{%block title %}Login{% endblock%}</title>
+    {% load static from staticfiles %}
+    {% load bootstrap %}
+    {% block content %}
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+            
+                <div class="login-panel panel panel-default">
+                
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Ingrese sus datos</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" method="post" action="/login/cliente/{{mesa.id}}/">
+                        {% csrf_token %}
+                            <fieldset>
+                                <div class="control-group">
+                                    <label class="control-label" for="username">Username</label>
+                                    <div class="controls">
+                                        <input type="text" id="username" name="username"  placeholder="Username" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="password">Password</label>
+                                    <div class="controls">
+                                        <input type="password" name="password" id="password" placeholder="Password" class="form-control">
+                                    </div>
+                                </div>
+                                <br>
+                                <!-- Change this to a button or input when using this as a form -->
+                                <input type="submit" class="btn btn-primary btn-block" value="Ingresar"/>  
+                                <input type="hidden" name="next" 
+                                                    value="{{ next }}"/>
+                            </fieldset>
+                        </form>
+                        <a href="/signup/cliente/{{mesa.id}}" class="btn btn-warning btn-block" style="margin-top:5px;">Crear Cuenta </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+

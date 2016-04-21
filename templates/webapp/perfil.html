@@ -1,0 +1,117 @@
+<!--VISTA PARA LA EDICION DEL PERFIL Y ACTUALIZACION DE CONTRASEÑA -->
+{% extends 'webapp/base.html' %}
+{% load static from staticfiles %}
+
+{% block loadfiles %}
+  {% load bootstrap %}
+    {{ form.media }}
+{% endblock %}
+{% block maintitulocuerpo %}<i class="fa fa-user"></i> Perfil {% endblock %}
+{% block secondtitulocuerpo %}{% endblock %}
+{% block contenido %}
+ 
+  <div class="row">
+    <div class="col-md-3">
+
+      <!-- Profile Image -->
+      <div class="box box-primary">
+        <div class="box-body box-profile">
+          <img class="profile-user-img img-responsive img-circle" src="{{request.user.perfil.foto.url}}" alt="User profile picture">
+          <h3 class="profile-username text-center">{%if request.user.first_name and request.user.last_name%}
+              {{ request.user.first_name }} {{ request.user.last_name}} 
+              {%else%}
+              {{request.user}}
+              {%endif%}</h3>
+          <p class="text-muted text-center"><strong> Restaurant: </strong> {{restaurant}}</p>
+        </div><!-- /.box-body -->
+      </div><!-- /.box -->
+
+      <!-- About Me Box -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Acerca de Mí</h3>
+        </div><!-- /.box-header -->
+          <div class="box-body">
+          <strong><i class="fa fa-envelope margin-r-5"></i>  Correo Electronico</strong>
+          <p class="text-muted">
+            {{request.user.email}}
+          </p>
+
+          <hr>
+
+          <strong><i class="fa fa-mobile margin-r-5"></i> Celular</strong>
+          <p class="text-muted">{{request.user.perfil.celular}}</p>
+
+          <hr>
+
+          <strong><i class="fa fa-tty margin-r-5"></i> Teléfono</strong>
+          <p class="text-muted">{{request.user.perfil.telefono}}</p>
+
+        </div><!-- /.box-body -->
+      </div><!-- /.box -->
+    </div><!-- /.col -->
+    <div class="col-md-9">
+      <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+          <!-- <li ><a href="#activity" data-toggle="tab">Actividad</a></li> -->
+          <li class="active"><a href="#settings" data-toggle="tab">Configuración</a></li>
+          <li><a href="#timeline" data-toggle="tab">Seguridad</a></li>
+        </ul>
+        <!--VERIFICACION DE LA MODIFICACION EN LOS FORMULARIOS-->
+        <div class="tab-content">
+        {% if info_enviado == "1" %}
+         <div class="alert alert-success alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          <h4>  <i class="icon fa fa-check"></i> Hecho!</h4>
+          Tus datos han sido actualizados.
+          </div>
+        {% elif info_enviado == "2" %}
+          <div class="alert alert-danger alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          <h4>  <i class="icon fa fa-check"></i> Error!</h4>
+          Verificá los datos ingresados.
+          </div>
+        {% elif info_enviado == "3" %}
+          <div class="alert alert-success alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          <h4>  <i class="icon fa fa-check"></i> Hecho!</h4>
+          Tu nueva contraseña ha sido registrada.
+          </div>
+        {% elif info_enviado == "4" %}
+          <div class="alert alert-danger alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          <h4>  <i class="icon fa fa-check"></i> Error!</h4>
+          Verificá los datos ingresados.
+          </div>
+        {% endif %}
+
+          <!-- FORMULARIOS -->
+          <div class="tab-pane" id="activity">
+            </ul>
+          </div><!-- /.tab-pane -->
+          <div class="active tab-pane" id="settings">
+            <form role="form" method="post" action="/actualizar/usuario/" enctype="multipart/form-data" >
+              {% csrf_token %}
+              {{ user_form | bootstrap  }}
+              {{ perfil_form | bootstrap  }}
+              <p align="center">
+              <button type="submit" class="btn btn-danger" value="Actualizar">Actualizar</button>
+              </p>
+            </form>
+          </div><!-- /.tab-pane -->
+          <div class="tab-pane" id="timeline">
+            <form role="form" method="post" action="/actualizar/password/" enctype="multipart/form-data" >
+              {% csrf_token %}
+              {{ pass_form | bootstrap }}
+              <p align="center">
+              <button type="submit" class="btn btn-danger" value="Actualizar">Actualizar</button>
+              </p>
+            </form>
+          </div><!-- /.tab-pane -->
+        </div><!-- /.tab-content -->
+      </div><!-- /.nav-tabs-custom -->
+    </div><!-- /.col -->
+  </div><!-- /.row -->
+{% endblock %}
+{% block  loadfilesbelow %}
+{% endblock%}

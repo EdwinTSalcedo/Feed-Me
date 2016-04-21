@@ -1,0 +1,15 @@
+<!-- VISTA DE ERROR -->
+{% extends 'mobileapp/overbase.html' %}
+<title>{%block title %}Error de Ingreso{% endblock%}</title>
+{% load static from staticfiles %}
+{% load bootstrap %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+
+            <p ><h1>Gracias por su visita!</h1></p>
+            <p><h3>Para utilizar el sistema debe leer otro numero de mesa.</h3></p>
+            <a href='#' class="btn btn-success btn-block">Leer</a> 
+        </div>
+    </div>
+{% endblock %}
